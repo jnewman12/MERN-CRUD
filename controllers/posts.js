@@ -5,11 +5,20 @@ module.exports = {
   getOnePost,
   createPost,
   deletePost,
-  updatePost
+  updatePost,
+  upvotePost,
+  addComment,
+  downvotePost
 };
 
 function updatePost(req, res) {
+  console.log('&&&&&&&&&&&&&&&&&&&&&')
+  console.log(req)
+  console.log('&&&&&&&&&&&&&&&&&&&&&')
   Post.findByIdAndUpdate(req.params.id, req.body, {new: true}).then(function(post) {
+    console.log('&&&&&&&&&&&&&&&&&&&&&')
+    console.log(post)
+    console.log('&&&&&&&&&&&&&&&&&&&&&')
     res.status(200).json(post);
   });
 }
@@ -38,3 +47,34 @@ function getAllPosts(req, res) {
     res.status(200).json(posts);
   });
 }
+
+function upvotePost(req, res) {
+  Post.findById(req.params.id).then(function(post) {
+    post.upvotes += 1;
+    post.save(function(post) {
+      res.status(200).json(post);
+    })
+  })
+}
+
+function downvotePost(req, res) {
+  Post.findById(req.params.id).then(function(post) {
+    post.upvotes -= 1;
+    post.save(function(post) {
+      res.status(200).json(post);
+    })
+  })
+}
+
+function addComment(req, res) {
+  console.log('***************************')
+  console.log(req);
+  console.log('***************************')
+  Post.findById(req.params.id).then(function(post) {
+    post.comments.push(req.body);
+    post.save(function(post) {
+      res.status(200).json(post);
+    })
+  })
+}
+

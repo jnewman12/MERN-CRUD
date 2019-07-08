@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import { getArtists, deleteArtist } from '../services/api';
+import { getPosts, upvotePost} from '../services/api';
 
-// import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class Index extends Component {
   constructor() {
@@ -12,14 +12,47 @@ class Index extends Component {
   }
 
   componentDidMount() {
+    var self = this;
+    getPosts().then(function(posts) {
+      self.setState({posts: posts})
+    })
   }
 
-  // handleDelete = (id) => {
-  // }
+  handleUpvote = (id, type) => {
+    var self = this;
+
+    upvotePost(id, type).then(function(json) {
+      getPosts().then(function(posts) {
+        self.setState({posts: posts})
+      })
+    })
+  }
 
   render() {
+    var posts = this.state.posts.map((post, idx) => {
+      return (
+        <li key={idx}>
+          <Link to={`/posts/${post._id}`}>{post.title}</Link>
+          <br/>
+          <span>upvotes: {post.upvotes}</span>
+          <br/>
+          <a href="#" className="btn btn-success" onClick={() => this.handleUpvote(post._id, 'upvote')}>Upvote Post <i className="fa fa-thumbs-up"></i></a>
+          <br/>
+          <a href="#" className="btn btn-danger" onClick={() => this.handleUpvote(post._id, 'downvote')}>Downvote Post <i className="fa fa-thumbs-down"></i></a>
+          <hr/>
+        </li>
+      )
+    })
+
     return (
-      <h1>Hi from Index!</h1>
+      <div>
+        <h2>Reddit Clone</h2>
+        <hr/>
+        <br/>
+        <ul>
+          { posts }
+        </ul>
+      </div>
     )
   }
 }
