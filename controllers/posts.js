@@ -34,6 +34,7 @@ function createPost(req, res) {
 
 function getAllPosts(req, res) {
   Post.find({}).then(function(posts) {
+    console.log(posts);
     res.status(200).json(posts);
   });
 }

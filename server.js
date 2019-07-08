@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+// var favicon = require('favicon');
 
 require('./config/database');
 
@@ -21,7 +22,7 @@ app.use(cookieParser());
 
 // Configure both serve-favicon & static middlewares
 // to serve from the production 'build' folder
-app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 
 /*

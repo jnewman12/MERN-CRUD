@@ -1,13 +1,15 @@
 var mongoose = require('mongoose');
 
 var CommentSchema = new mongoose.Schema({
-  comment: String
+  body: String
 }, {
   timestamps: true
 });
 
 var PostSchema = new mongoose.Schema({
-  name: String,
+  title: String,
+  body: String,
+  upvotes: { type: Number, default: 0 },
   comments: [CommentSchema]
 }, {
   timestamps: true
