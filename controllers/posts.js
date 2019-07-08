@@ -12,13 +12,7 @@ module.exports = {
 };
 
 function updatePost(req, res) {
-  console.log('&&&&&&&&&&&&&&&&&&&&&')
-  console.log(req)
-  console.log('&&&&&&&&&&&&&&&&&&&&&')
   Post.findByIdAndUpdate(req.params.id, req.body, {new: true}).then(function(post) {
-    console.log('&&&&&&&&&&&&&&&&&&&&&')
-    console.log(post)
-    console.log('&&&&&&&&&&&&&&&&&&&&&')
     res.status(200).json(post);
   });
 }
