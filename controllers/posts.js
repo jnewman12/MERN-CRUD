@@ -61,9 +61,6 @@ function downvotePost(req, res) {
 }
 
 function addComment(req, res) {
-  console.log('***************************')
-  console.log(req);
-  console.log('***************************')
   Post.findById(req.params.id).then(function(post) {
     post.comments.push(req.body);
     post.save(function(post) {
