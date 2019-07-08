@@ -24,18 +24,6 @@ app.use(cookieParser());
 // app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 
-/*
-POSTS
-GET /api/posts
-POST /api/posts
-GET /api/posts/:id (renders assoc comments as array)
-PUT /api/posts/:id/edit
-DELETE /api/posts/:id
-COMMENTS
-POST api/posts/:id/comments
-DELETE api/posts/:id/comments/:id
-*/
-
 app.use('/api', apiRouter);
 
 // The following "catch all" route (note the *)is necessary
