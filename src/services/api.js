@@ -63,6 +63,7 @@ export function upvotePost(id, type) {
   })
 }
 
+// add a comment to post
 export function addComment(postId, comment) {
   return fetch(`/api/posts/${postId}/comments`, {
     method: 'POST',
