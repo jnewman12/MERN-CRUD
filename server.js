@@ -7,11 +7,12 @@ var cors = require('cors');
 
 require('./config/database');
 
-var apiRouter = require('./routes/api');
+require('dotenv').config();
+
+var postsRouter = require('./routes/posts');
+var usersRouter = require('./routes/users');
 
 var app = express();
-
-// view engine setup
 
 app.use(cors());
 app.use(logger('dev'));
@@ -24,7 +25,8 @@ app.use(cookieParser());
 // app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.use('/api', apiRouter);
+app.use('/api/posts', postsRouter); 
+app.use('/api/users', usersRouter); 
 
 // The following "catch all" route (note the *)is necessary
 // for a SPA's client-side routing to properly work

@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { editPost, getPost } from '../services/api';
+import { createArtist } from '../../services/postService';
 
 class Create extends Component {
   constructor() {
     super();
     this.state = {
-      id: '',
-      title: '',
-      body: ''
+      name: '',
+      body: '',
     }
   }
 
   handleName = (e) => {
-    this.setState({ title: e.target.value })
+    this.setState({ name: e.target.value })
   }
 
   handleBody = (e) => {
@@ -23,21 +22,17 @@ class Create extends Component {
     e.preventDefault()
     var self = this;
 
-    editPost(this.state).then(function(post) {
-      window.location = `/posts/${self.state.id}`
-    });
-  }
-
-  componentDidMount = () => {
-    var id = this.props.match.params.id;
-    var self = this;
-
-    getPost(id).then(function(post) {
-      self.setState({
-        id: post._id,
-        title: post.title,
-        body: post.body
-      });
+    return fetch('/api/posts', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: self.state.name,
+        body: self.state.body
+      }),
+      headers: {
+        'content-type': 'application/json'
+      }
+    }).then(function(json) {
+      window.location = '/'
     })
   }
 
@@ -49,7 +44,7 @@ class Create extends Component {
         <form onSubmit={this.handleSubmit}>
           <label>Post Name</label>
           <br/>
-          <input onChange={this.handleName} value={this.state.title} required={true}/>
+          <input onChange={this.handleName} value={this.state.name} required={true}/>
           <br/>
 
           <label>Post Body</label>
@@ -58,7 +53,7 @@ class Create extends Component {
           <br/>
 
           <br/>
-          <input type='submit' value='Edit Post' className='btn btn-primary' />
+          <input type='submit' value='Add Post' className='btn btn-primary' />
         </form>
       </div>  
     )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getPosts, upvotePost} from '../services/api';
+import { getPosts, upvotePost} from '../../services/postService';
 
 import { Link, Redirect } from 'react-router-dom';
 

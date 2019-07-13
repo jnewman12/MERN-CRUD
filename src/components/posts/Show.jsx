@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getPost, addComment, deletePost } from '../services/api';
+import { getPost, addComment, deletePost } from '../../services/postService';
 
 class Show extends Component {
   constructor() {

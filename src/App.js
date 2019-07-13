@@ -4,31 +4,60 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 // delete implementing in index
-import Index from './components/Index';
-import Create from './components/Create';
-import Edit from './components/Edit';
-import Show from './components/Show';
+import Index from './components/posts/Index';
+import Create from './components/posts/Create';
+import Edit from './components/posts/Edit';
+import Show from './components/posts/Show';
+
+// added
+import Navbar from './components/Navbar';
+import Login from './components/users/Login';
+import Logout from './components/users/Logout';
+import Signup from './components/users/Signup';
 
 import { Route, Switch, Link } from 'react-router-dom';
 
+import userService from './services/userService';
+
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      user: userService.getUser()
+    };
+  }
+
+  handleSignupOrLogin = () => {
+    this.setState({ user: userService.getUser() });
+  };
+
+  handleLogOut = () => {
+    console.log("handlelogout called");
+    userService.logout();
+    console.log("logged out");
+    this.setState({ user: null });
+    console.log(this.state.user);
+  };
+
   render() {
     return(
-      <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to={'/'} className="navbar-brand">React Hacker News</Link>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-                <Link to={'/'} className="nav-link">Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link to={'/create'} className="nav-link">Create</Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
+      <div className="container-fluid">
+        <Navbar currentUser={this.state.currentUser} />
         <Switch>
+          <Route path="/login" render={(props) => {
+            return <Login {...props} handleSignupOrLogin={this.handleSignupOrLogin} />
+          }} />
+
+          <Route path="/logout" render={(props) => {
+            return <Logout onLogOut={this.logOut} />
+          }} />
+
+          {/* the sign up component takes an 'onSignUpSuccess' prop which will perform the same thing as 
+            onLoginSuccess: set the state to contain the currentUser */}
+          <Route path="/signup" render={(props) => {
+            return <Signup {...props} handleSignupOrLogin={this.handleSignupOrLogin} />
+          }} />
+
           <Route exact path='/' component={ Index } />
           <Route exact path='/create' component={ Create } />
           <Route exact path='/posts/:id' render={ (props) =>
