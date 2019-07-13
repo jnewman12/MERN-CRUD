@@ -3,6 +3,8 @@ var router = express.Router();
 var postsController = require('../controllers/posts');
 var usersCtrl = require('../controllers/users');
 
+// MOUNTED ON `/api/users`
+
 /*---------- Public Routes ----------*/
 router.post('/signup', usersCtrl.signup);
 router.post('/login', usersCtrl.login);

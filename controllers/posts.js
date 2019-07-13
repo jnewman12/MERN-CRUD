@@ -36,6 +36,7 @@ function createPost(req, res) {
 }
 
 function getAllPosts(req, res) {
+  console.log('hit');
   Post.find({}).then(function(posts) {
     console.log(posts);
     res.status(200).json(posts);
