@@ -34,17 +34,44 @@ class Show extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     var self = this;
-    addComment(this.state.id, this.state.commentBody).then(function(json) {
-      getPost(self.state.id).then(function(post) {
-        self.setState({ 
-          id: post._id,
-          title: post.title,
-          body: post.body,
-          comments: post.comments,
-          commentBody: ''
-        });
+    // addComment(this.state.id, this.state.commentBody).then(function(json) {
+    //   console.log(json);
+
+    //   // json()
+    //   // getPost(self.state.id).then(function(post) {
+    //   //   self.setState({ 
+    //   //     id: post._id,
+    //   //     title: post.title,
+    //   //     body: post.body,
+    //   //     comments: post.comments,
+    //   //     commentBody: ''
+    //   //   });
+    //   // })
+    // })
+
+    return fetch(`/api/posts/${this.state.id}/comments`, {
+      method: 'POST',
+      headers: new Headers({'Content-Type': 'application/json'}),
+      body: JSON.stringify({
+        body: this.state.commentBody
       })
-    })
+    }).then(res => {
+      // if (res.ok) return res.json();
+      // // Probably a duplicate email
+      // throw new Error('res');
+
+      if (res.ok) {
+        return res.json();
+      } else {
+        console.log(res);
+        // throw new Error('Something went wrong');
+        throw res;
+      }
+    }).then(function(json) {
+      console.log('json', json);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   handleDelete = (id) => {

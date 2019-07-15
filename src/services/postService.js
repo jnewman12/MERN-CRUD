@@ -60,6 +60,10 @@ export function upvotePost(id, type) {
     headers: {
       'content-type': 'application/json'
     }
+  }).then(function(res) {
+    return res.json();
+  }).catch(function(err) {
+    console.log('err', err);
   })
 }
 
@@ -67,12 +71,36 @@ export function upvotePost(id, type) {
 export function addComment(postId, comment) {
   return fetch(`/api/posts/${postId}/comments`, {
     method: 'POST',
+    headers: new Headers({'Content-Type': 'application/json'}),
     body: JSON.stringify({
       body: comment
-    }),
-    headers: {
-      'content-type': 'application/json'
+    })
+  }).then(res => {
+    // if (res.ok) return res.json();
+    // // Probably a duplicate email
+    // throw new Error('res');
+
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw new Error('Something went wrong');
     }
-  })
+  }).catch((error) => {
+    console.log(error)
+  });
 }
+
+// export function addComment(postId, comment) {
+//   return fetch(`/api/posts/${postId}/comments`, {
+//     method: 'POST',
+//     headers: new Headers({'Content-Type': 'application/json'}),
+//     body: JSON.stringify(user)
+//   })
+//   .then(res => {
+//     if (res.ok) return res.json();
+//     // Probably a duplicate email
+//     throw new Error('Email already taken!');
+//   })
+//   .then((token) => token.token);
+// }
 
